@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.2-1
+# 0x0 version 0.2-2
 # Copyright (C) 2020 Pontus Falk
 
 # MIT License
@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.2-1. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.2-2. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
@@ -91,7 +91,7 @@ case $1 in
 		if [ "$1" ]; then
 			if [ -f "$1" ]; then
 				echo "Uploading '$1'!"
-				URL=$(curl -F file=@"$2" -- https://0x0.st)
+				URL=$(curl -F file=@"$1" -- https://0x0.st)
 				echo
 				echo -n $URL | xclip -i -sel clipboard
 				echo "Tjoho, uploading of '$1' is done! The URL is '$URL'!"
