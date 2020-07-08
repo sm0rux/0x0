@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.2-2
+# 0x0 version 0.3-1
 # Copyright (C) 2020 Pontus Falk
 
 # MIT License
@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.2-2. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.3-1. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
@@ -31,76 +31,53 @@ case $1 in
 	"--help"|"-h"|"-?")
 		echo "Format: '$0 [command] [directory/]filenamn.ext'."
 		echo
-		echo "Command -#: show progress-bar"
-		echo "        -s: silent mode (supress errors)"
-		echo "        -S: silten mode (show errors)"
+		echo "Option -#: show progress-bar"
+		echo "       -s: silent mode (supress errors)"
+		echo "       -S: silten mode (show errors)"
 		exit 1
-		;;
-	"-#")
-		if [ "$2" ]; then
-			if [ -f "$2" ]; then
-				echo "Uploading '$2'!"
-				URL=$(curl -# -F file=@"$2" -- https://0x0.st)
-				echo
-				echo -n $URL | xclip -i -sel clipboard
-				echo "Tjoho, uploading of '$2' is done! The URL is '$URL'!"
-			else
-				echo "Didn't find the file '$2' :("
-			fi
-		else
-			echo "Ehh... you have to give a file name!"
-			echo "Correct format is '$0 [directory/]filenamn.ext'."
-			echo "$0 --help for more info."
-		fi
-		;;
-	"-s")
-		if [ "$2" ]; then
-			if [ -f "$2" ]; then
-				echo "Uploading '$2'!"
-				URL=$(curl -s -F file=@"$2" -- https://0x0.st)
-				echo
-				echo -n $URL | xclip -i -sel clipboard
-				echo "Tjoho, uploading of '$2' is done! The URL is '$URL'!"
-			else
-				echo "Didn't find the file '$2' :("
-			fi
-		else
-			echo "Ehh... you have to give a file name!"
-			echo "Correct format is '$0 [directory/]filenamn.ext'."
-			echo "$0 --help for more info."
-		fi
-		;;
-	"-S")
-		if [ "$2" ]; then
-			if [ -f "$2" ]; then
-				echo "Uploading '$2'!"
-				URL=$(curl -s -S -F file=@"$2" -- https://0x0.st)
-				echo
-				echo -n $URL | xclip -i -sel clipboard
-				echo "Tjoho, uploading of '$2' is done! The URL is '$URL'!"
-			else
-				echo "Didn't find the file '$2' :("
-			fi
-		else
-			echo "Ehh... you have to give a file name!"
-			echo "Correct format is '$0 [directory/]filenamn.ext'."
-			echo "$0 --help for more info."
-		fi
-		;;
-	*)
-		if [ "$1" ]; then
-			if [ -f "$1" ]; then
-				echo "Uploading '$1'!"
-				URL=$(curl -F file=@"$1" -- https://0x0.st)
-				echo
-				echo -n $URL | xclip -i -sel clipboard
-				echo "Tjoho, uploading of '$1' is done! The URL is '$URL'!"
-			else
-				echo "Didn't find the file '$1' :("
-			fi
-		else
-			echo "Ehh... you have to give a file name!"
-			echo "Correct format is '$0 [directory/]filenamn.ext'."
-			echo "$0 --help for more info."
-		fi
 esac
+
+if [ $1 ]; then
+	if [ -f "$2" ]; then
+
+		echo "Uploading '$2'!"
+                echo
+		case $1 in
+			"-#")
+				URL=$(curl -# -F file=@"$2" -- https://0x0.st)
+				;;
+			"-s")
+				URL=$(curl -s -F file=@"$2" -- https://0x0.st)
+				;;
+			"-S")
+				URL=$(curl -s -S -F file=@"$2" -- https://0x0.st)
+				;;
+			*)
+                                echo "Unsupported option '$1', continue with default setting!"
+				echo
+                                URL=$(curl -F file=@"$2" -- https://0x0.st)
+		esac
+
+		echo
+		echo -n $URL | xclip -i -sel clipboard
+		echo "Tjoho, uploading of '$2' is done! The URL is '$URL'!"
+
+	elif [ -f "$1" ]; then
+		echo "Uploading '$1'!"
+                echo
+		URL=$(curl -F file=@"$1" -- https://0x0.st)
+		echo
+		echo -n $URL | xclip -i -sel clipboard
+		echo "Tjoho, uploading of '$1' is done! The URL is '$URL'!"
+	else
+		if [ $2 ]; then
+			echo "Didn't find the file '$2'!"
+		else
+			echo "Didn't find the file '$1'!"
+                fi
+	fi
+else
+	echo "Ehh... you have to give a file name!"
+	echo "Correct format is '$0 [option] [directory/]filenamn.ext'."
+	echo "$0 --help for more info."
+fi
