@@ -4,7 +4,8 @@ Script to upload files to 0x0.st
 
 ## Installation
 
-Put 0x0 in /usr/local/bin directory
+Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
+/usr/local/bin to the file wherever it is located
 
 ## Dependencies
 
