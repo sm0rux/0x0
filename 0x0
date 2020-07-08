@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.1-3
+# 0x0 version 0.1-4
 # Copyright (C) 2020 Pontus Falk
 
 # MIT License
@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.1-3. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.1-4. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
@@ -31,8 +31,14 @@ if [ "$1" ]; then
 	if [ -f "$1" ]; then
 		echo "Uploading '$1'!"
         echo
-        URL=$(curl -F file=@"$1" -- https://0x0.st)
-        #URL=$(echo foo)
+
+	# Uncomment only one of the following four lines
+	#URL=$(curl -F file=@"$1" -- https://0x0.st)
+	URL=$(curl -# -F file=@"$1" -- https://0x0.st)
+	#URL=$(curl -s -F file=@"$1" -- https://0x0.st)
+	#URL=$(curl -s -S -F file=@"$1" -- https://0x0.st)
+
+	#URL=$(echo foo)
         echo -n $URL | xclip -i -sel clipboard
         echo
         echo "Tjoho, upploading of '$1' is done! The URL is '$URL'!"
