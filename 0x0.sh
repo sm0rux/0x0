@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.3-2
+# 0x0 version 0.3-3
 # Copyright (C) 2020 Pontus Falk
 
 # MIT License
@@ -23,13 +23,13 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.3-2. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.3-3. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
 case $1 in
 	"--help"|"-h"|"-?")
-		echo "Format: '$0 [option] [directory/]filenamn.ext'."
+		echo "Format: '$0 [option] [directory/]filename.ext'."
 		echo
 		echo "Option -#: show progress-bar"
 		echo "       -s: silent mode (supress errors)"
@@ -78,6 +78,6 @@ if [ $1 ]; then
 	fi
 else
 	echo "Ehh... you have to give a file name!"
-	echo "Correct format is '$0 [option] [directory/]filenamn.ext'."
+	echo "Correct format is '$0 [option] [directory/]filename.ext'."
 	echo "$0 --help for more info."
 fi
