@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.3-3
+# 0x0 version 0.3-6
 # Copyright (C) 2020 Pontus Falk
 
 # MIT License
@@ -23,7 +23,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.3-3. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.3-6. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
@@ -41,9 +41,10 @@ if [ $1 ]; then
 	if [ -f "$2" ]; then
 
 		echo "Uploading '$2'!"
-                echo
+
 		case $1 in
 			"-#")
+				echo
 				URL=$(curl -# -F file=@"$2" -- https://0x0.st)
 				;;
 			"-s")
@@ -53,9 +54,10 @@ if [ $1 ]; then
 				URL=$(curl -s -S -F file=@"$2" -- https://0x0.st)
 				;;
 			*)
-                                echo "Unsupported option '$1', continue with default setting!"
 				echo
-                                URL=$(curl -F file=@"$2" -- https://0x0.st)
+				echo "*** Unsupported option '$1', continue with default setting!"
+				echo
+				URL=$(curl -F file=@"$2" -- https://0x0.st)
 		esac
 
 		echo
@@ -64,7 +66,7 @@ if [ $1 ]; then
 
 	elif [ -f "$1" ]; then
 		echo "Uploading '$1'!"
-                echo
+		echo
 		URL=$(curl -F file=@"$1" -- https://0x0.st)
 		echo
 		echo -n $URL | xclip -i -sel clipboard
@@ -74,10 +76,11 @@ if [ $1 ]; then
 			echo "Didn't find the file '$2'!"
 		else
 			echo "Didn't find the file '$1'!"
-                fi
+		fi
 	fi
 else
 	echo "Ehh... you have to give a file name!"
+	echo
 	echo "Correct format is '$0 [option] [directory/]filename.ext'."
-	echo "$0 --help for more info."
+	echo "See $0 --help for more info."
 fi
