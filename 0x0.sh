@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.4-4
+# 0x0 version 0.4-5
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -26,7 +26,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.4-4. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.4-5. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
@@ -49,7 +49,7 @@ esac
 # exist then move VAR1 to VAR2 and put content in ~/.0x0rc in VAR1.
 if [ -z $VAR2 ]; then
 	if [ -f ~/.0x0rc ]; then
-		if [ -f $VAR1 ]; then
+		if [ $VAR1 ]; then
 			FILE=~/.0x0rc
 			while read LINE; do
 				# If line in ~/.0x0rc is not a comment and VAR1 is a file then
