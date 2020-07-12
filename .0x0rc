@@ -11,7 +11,7 @@
 #        -S: silten mode (show errors)
 #
 #CONFIG1="-d"
-CONFIG1="-#"
+#CONFIG1="-#"
 #CONFIG1="-s"
-#CONFIG1="-S"
+CONFIG1="-S"
 #
