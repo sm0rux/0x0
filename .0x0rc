@@ -11,6 +11,7 @@
 #        -S: silten mode (show errors)
 #
 #-d
--#
+#-#
 #-s
-#-S
+-S
+#

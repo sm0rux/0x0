@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.4-3
+# 0x0 version 0.4-4
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -26,14 +26,15 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.4-3. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.4-4. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
-L1=$1
-L2=$2
+VAR1=$1
+VAR2=$2
 
-case $L1 in
+# If VAR1 is --help, -h or -? then show these lines and then quit.
+case $VAR1 in
 	"--help"|"-h"|"-?")
 		echo "Format: '$0 [option] [directory/]filename.ext'."
 		echo
@@ -44,65 +45,75 @@ case $L1 in
 		exit 1
 esac
 
-if [ -z $L2 ]; then
+# If VAR2 is empty and VAR1 is an existing and readable file and if ~/.0x0rc
+# exist then move VAR1 to VAR2 and put content in ~/.0x0rc in VAR1.
+if [ -z $VAR2 ]; then
 	if [ -f ~/.0x0rc ]; then
-		if [ $L1 ]; then
+		if [ -f $VAR1 ]; then
 			FILE=~/.0x0rc
 			while read LINE; do
+				# If line in ~/.0x0rc is not a comment and VAR1 is a file then
+				# rotate VAR1->VAR2 and LINE->VAR1
 				if [ ${LINE::1} != "#" ]; then
-					L2=$L1
-					L1=$LINE
+					VAR2=$VAR1
+					VAR1=$LINE
 				fi
 			done < $FILE
 		fi
 	fi
 fi
 
-if [ $L1 ]; then
-	if [ -f "$L2" ]; then
+# If VAR1 is not empty and VAR2 is an existing and readable file the do the work :)
+if [ $VAR1 ]; then
+	if [ -f "$VAR2" ]; then
 
-		echo "Uploading '$L2'!"
+		echo "Uploading '$VAR2'!"
 
-		case $L1 in
+		case $VAR1 in
 			"-d")
 				echo
-				URL=$(curl -F file=@"$L2" -- https://0x0.st)
+				URL=$(curl -F file=@"$VAR2" -- https://0x0.st)
 				;;
  			"-#")
 				echo
-				URL=$(curl -# -F file=@"$L2" -- https://0x0.st)
+				URL=$(curl -# -F file=@"$VAR2" -- https://0x0.st)
 				;;
 			"-s")
-				URL=$(curl -s -F file=@"$L2" -- https://0x0.st)
+				URL=$(curl -s -F file=@"$VAR2" -- https://0x0.st)
 				;;
 			"-S")
-				URL=$(curl -s -S -F file=@"$L2" -- https://0x0.st)
+				URL=$(curl -s -S -F file=@"$VAR2" -- https://0x0.st)
 				;;
 			*)
 				echo
-				echo "*** Unsupported option '$L1', continue with default setting!"
+				echo "*** Unsupported option '$VAR1', continue with default setting!"
 				echo
-				URL=$(curl -F file=@"$L2" -- https://0x0.st)
+				URL=$(curl -F file=@"$VAR2" -- https://0x0.st)
 		esac
 
 		echo
 		echo -n $URL | xclip -i -sel clipboard
-		echo "Tjoho, uploading of '$L2' is done! The URL is '$URL'!"
+		echo "Tjoho, uploading of '$VAR2' is done! The URL is '$URL'!"
 
-	elif [ -f "$L1" ]; then
-		echo "Uploading '$L1'!"
+	# If VAR1 is an existing and readable file (as it only could be if ~/.0x0rc not exists and no option is given...
+	elif [ -f "$VAR1" ]; then
+		echo "Uploading '$VAR1'!"
 		echo
-		URL=$(curl -F file=@"$L1" -- https://0x0.st)
+		URL=$(curl -F file=@"$VAR1" -- https://0x0.st)
 		echo
 		echo -n $URL | xclip -i -sel clipboard
-		echo "Tjoho, uploading of '$L1' is done! The URL is '$URL'!"
+		echo "Tjoho, uploading of '$VAR1' is done! The URL is '$URL'!"
+
+	# If no valid file is found in either VAR1 or VAR2
 	else
-		if [ -z $L2 ]; then
-			echo "Didn't find the file '$L1'!"
+		if [ -z $VAR2 ]; then
+			echo "Didn't find the file '$VAR1'!"
 		else
-			echo "Didn't find the file '$L2'!"
+			echo "Didn't find the file '$VAR2'!"
 		fi
 	fi
+
+# If no option or filename is given...
 else
 	echo "Ehh... you have to give a file name!"
 	echo
