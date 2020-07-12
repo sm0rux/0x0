@@ -10,8 +10,8 @@
 #        -s: silent mode (supress errors)
 #        -S: silten mode (show errors)
 #
-#-d
-#-#
-#-s
--S
+#CONFIG1="-d"
+CONFIG1="-#"
+#CONFIG1="-s"
+#CONFIG1="-S"
 #
