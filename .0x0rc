@@ -1,0 +1,16 @@
+# .0x0rc
+#
+# Put this file in you home directory - or (prefered) make a
+# symbolic link from your git directory to your home dir :)
+#
+# Only one line not starting with a # character is allowed.
+#
+# Option -d: default setting
+#        -#: show progress-bar
+#        -s: silent mode (supress errors)
+#        -S: silten mode (show errors)
+#
+#-d
+-#
+#-s
+#-S

@@ -1,7 +1,10 @@
 #!/bin/bash
 
-# 0x0 version 0.3-6
+# 0x0 version 0.4-1
 # Copyright (C) 2020 Pontus Falk
+
+# Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
+# /usr/local/bin to the file wherever it is located.
 
 # MIT License
 
@@ -23,59 +26,81 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.3-6. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.4-1. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
-case $1 in
+L1=$1
+L2=$2
+
+case $L1 in
 	"--help"|"-h"|"-?")
 		echo "Format: '$0 [option] [directory/]filename.ext'."
 		echo
-		echo "Option -#: show progress-bar"
+		echo "Option -d: default setting"
+		echo "       -#: show progress-bar"
 		echo "       -s: silent mode (supress errors)"
 		echo "       -S: silten mode (show errors)"
 		exit 1
 esac
 
-if [ $1 ]; then
-	if [ -f "$2" ]; then
+if [ -z $L2 ]; then
+	if [ ~/.0x0rc ]; then
+		if [ $L1 ]; then
+			FILE=~/.0x0rc
+			while read LINE; do
+				if [ ${LINE::1} != "#" ]; then
+					L2=$1
+					L1=$LINE
+				fi
+			done < $FILE
+		fi
+	fi
+fi
 
-		echo "Uploading '$2'!"
+if [ $L1 ]; then
+	if [ -f "$L2" ]; then
 
-		case $1 in
-			"-#")
+		echo "Uploading '$L2'!"
+
+		case $L1 in
+			"-d")
 				echo
-				URL=$(curl -# -F file=@"$2" -- https://0x0.st)
+				URL=$(curl -F file=@"$L2" -- https://0x0.st)
+				;;
+ 			"-#")
+				echo
+				URL=$(curl -# -F file=@"$L2" -- https://0x0.st)
 				;;
 			"-s")
-				URL=$(curl -s -F file=@"$2" -- https://0x0.st)
+				URL=$(curl -s -F file=@"$L2" -- https://0x0.st)
 				;;
 			"-S")
-				URL=$(curl -s -S -F file=@"$2" -- https://0x0.st)
+				URL=$(curl -s -S -F file=@"$L2" -- https://0x0.st)
 				;;
 			*)
 				echo
-				echo "*** Unsupported option '$1', continue with default setting!"
+				echo "*** Unsupported option '$L1', continue with default setting!"
 				echo
-				URL=$(curl -F file=@"$2" -- https://0x0.st)
+				URL=$(curl -F file=@"$L2" -- https://0x0.st)
 		esac
 
 		echo
 		echo -n $URL | xclip -i -sel clipboard
-		echo "Tjoho, uploading of '$2' is done! The URL is '$URL'!"
+		echo "Tjoho, uploading of '$L2' is done! The URL is '$URL'!"
 
-	elif [ -f "$1" ]; then
-		echo "Uploading '$1'!"
+	elif [ -f "$L1" ]; then
+		echo "Uploading '$L1'!"
 		echo
-		URL=$(curl -F file=@"$1" -- https://0x0.st)
+		URL=$(curl -F file=@"$L1" -- https://0x0.st)
 		echo
 		echo -n $URL | xclip -i -sel clipboard
-		echo "Tjoho, uploading of '$1' is done! The URL is '$URL'!"
+		echo "Tjoho, uploading of '$L1' is done! The URL is '$URL'!"
 	else
 		if [ $2 ]; then
-			echo "Didn't find the file '$2'!"
+			echo "Didn't find the file '$L2'!"
 		else
-			echo "Didn't find the file '$1'!"
+			echo "Didn't find the file '$L1'!"
 		fi
 	fi
 else
