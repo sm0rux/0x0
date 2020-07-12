@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# 0x0 version 0.4-1
+# 0x0 version 0.4-3
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -26,7 +26,7 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-echo "0x0 version 0.4-1. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.4-3. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
@@ -45,12 +45,12 @@ case $L1 in
 esac
 
 if [ -z $L2 ]; then
-	if [ ~/.0x0rc ]; then
+	if [ -f ~/.0x0rc ]; then
 		if [ $L1 ]; then
 			FILE=~/.0x0rc
 			while read LINE; do
 				if [ ${LINE::1} != "#" ]; then
-					L2=$1
+					L2=$L1
 					L1=$LINE
 				fi
 			done < $FILE
@@ -97,10 +97,10 @@ if [ $L1 ]; then
 		echo -n $URL | xclip -i -sel clipboard
 		echo "Tjoho, uploading of '$L1' is done! The URL is '$URL'!"
 	else
-		if [ $2 ]; then
-			echo "Didn't find the file '$L2'!"
-		else
+		if [ -z $L2 ]; then
 			echo "Didn't find the file '$L1'!"
+		else
+			echo "Didn't find the file '$L2'!"
 		fi
 	fi
 else
