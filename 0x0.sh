@@ -2,7 +2,7 @@
 
 set -e
 
-# 0x0 version 0.5-3
+# 0x0 version 1.0-1
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -31,27 +31,70 @@ set -e
 VAR1=$1
 VAR2=$2
 
-echo "0x0 version 0.5-3. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 1.0-1. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
 # If no options are given, echo shorter help text and exit
 if [ -z "$VAR1" ]; then
-	echo "Ehh... you have to give a file name!"
-	echo
-	echo "Correct format is '$0 [option] [directory/]filename.ext'."
-	echo "See $0 --help for more info."
+	echo "Ehh... maybe you should use '$0 --help' for more info?!"
 	exit 1
 fi
 
 # If VAR1 is --help, -h or -?, echo short help text and exit
 if [ "$VAR1" = "--help" ] || [ "$VAR1" = "-help" ] || [ "$VAR1" = "-h" ] || [ "$VAR1" = "-?" ]; then
-	echo "Format: '$0 [option] [directory/]filename.ext'."
+	echo "To upload files from your computer:"
 	echo
-	echo "Option -d: default setting"
-	echo "       -#: show progress-bar"
-	echo "       -s: silent mode (supress errors)"
-	echo "       -S: silten mode (show errors)"
+	echo "	Format: '$0 [option] [directory/]filename.ext'."
+	echo
+	echo "	Option -d: default setting"
+	echo "	       -#: show progress-bar"
+	echo "	       -s: silent mode (supress errors)"
+	echo "	       -S: silten mode (show errors)"
+	echo
+	echo "To shorten long URL:s:"
+	echo
+	echo "	Format: '$0 -short https://example.com/directory'."
+	echo
+	echo "To upload remote files:"
+	echo
+	echo "	Format: '$0 -remote https://example.com/directory/file.png'."
+	exit 1
+fi
+
+# URL shortener
+if [ "$VAR1" = "-short" ]; then
+	URL=$(curl -F shorten="$VAR2" -- https://0x0.st)
+	echo -n "$URL" | xclip -i -sel clipboard
+	if [ "$URL" != "Segmentation fault" ]; then
+		echo
+		echo "Tjoho, short URL for '$VAR2' is '$URL'!"
+	else
+		echo
+		echo "*** Sorry, but '$VAR2' is not a valid URL!"
+		if [ -z "$VAR2" ]; then
+			echo
+			echo "See '$0 --help' for more info."
+		fi
+	fi
+	exit 1
+fi
+
+# Upload remote file to 0x0.st
+if [ "$VAR1" = "-remote" ]; then
+	URL=$(curl -F url="$VAR2" -- https://0x0.st)
+	echo -n "$URL" | xclip -i -sel clipboard
+	if ! [ "${URL:0:1}" = "<" ] && ! [ "${URL:0:1}" = "4" ]; then
+		echo
+		echo "Tjoho, file '$VAR2' is uploaded as '$URL'!"
+	else
+		echo
+		echo "*** Sorry, but I don't find any file at '$VAR2'!"
+		if [ -z "$VAR2" ]; then
+			echo
+			echo "See '$0 --help' for more info."
+		fi
+	fi
 	exit 1
 fi
 
