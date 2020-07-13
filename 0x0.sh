@@ -2,7 +2,7 @@
 
 set -e
 
-# 0x0 version 0.5-1
+# 0x0 version 0.5-2
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -31,12 +31,12 @@ set -e
 VAR1=$1
 VAR2=$2
 
-echo "0x0 version 0.5-1. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.5-2. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
 # If no options are given, echo shorter help text and exit
-if [ -z $VAR1 ]; then
+if [ -z "$VAR1" ]; then
 	echo "Ehh... you have to give a file name!"
 	echo
 	echo "Correct format is '$0 [option] [directory/]filename.ext'."
@@ -56,8 +56,8 @@ if [ "$VAR1" = "--help" ] || [ "$VAR1" = "-help" ] || [ "$VAR1" = "-h" ] || [ "$
 fi
 
 # Exit if no valid filename is given either in $VAR1 or $VAR2
-if ! [ -f $VAR1 ] && ! [ -f $VAR2 ]; then
-	if [ -z $VAR2 ]; then
+if ! [ -f "$VAR1" ] && ! [ -f "$VAR2" ]; then
+	if [ -z "$VAR2" ]; then
 		echo "Didn't find the file '$VAR1'!"
 	else
 		echo "Didn't find the file '$VAR2'!"
@@ -71,11 +71,11 @@ if [ -f ~/.0x0rc ]; then
 fi
 
 # If file to transfer is in first option then move it to VAR2 and put CONFIG1 in VAR1
-if [ -f $VAR1 ]; then
+if [ -f "$VAR1" ]; then
 	VAR2=$VAR1
 
 	# If CONFIG1 is empty (no alternative given in ~/.0x0rc then put -d in VAR1
-	if [ $CONFIG1 ]; then
+	if [ "$CONFIG1" ]; then
 		VAR1=$CONFIG1
 	else
 		VAR1="-d"
