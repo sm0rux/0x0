@@ -2,7 +2,7 @@
 
 set -e
 
-# 0x0 version 1.0-1
+# 0x0 version 1.0-2
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -31,7 +31,7 @@ set -e
 VAR1=$1
 VAR2=$2
 
-echo "0x0 version 1.0-1. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 1.0-2. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
