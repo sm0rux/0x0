@@ -2,7 +2,7 @@
 
 set -e
 
-# 0x0 version 0.5-2
+# 0x0 version 0.5-3
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -31,7 +31,7 @@ set -e
 VAR1=$1
 VAR2=$2
 
-echo "0x0 version 0.5-2. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 0.5-3. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
@@ -103,6 +103,6 @@ case $VAR1 in
 esac
 
 # Transfer file using curl and copy URL returned to clipboard
-echo -n $URL | xclip -i -sel clipboard
+echo -n "$URL" | xclip -i -sel clipboard
 echo
 echo "Tjoho, uploading of '$VAR2' is done! The URL is '$URL'!"
