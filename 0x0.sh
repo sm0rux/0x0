@@ -2,7 +2,7 @@
 
 set -e
 
-# 0x0 version 1.0-2
+# 0x0 version 1.0-3
 # Copyright (C) 2020 Pontus Falk
 
 # Put 0x0.sh in /usr/local/bin directory or make a symbolic link in
@@ -28,16 +28,17 @@ set -e
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+VAR0=$(basename "$0")
 VAR1=$1
 VAR2=$2
 
-echo "0x0 version 1.0-2. Copyright (C) 2020 by Pontus Falk"
+echo "0x0 version 1.0-3. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
 # If no options are given, echo shorter help text and exit
 if [ -z "$VAR1" ]; then
-	echo "Ehh... maybe you should use '$0 --help' for more info?!"
+	echo "Ehh... maybe you should use '$VAR0 --help' for more info?!"
 	exit 1
 fi
 
@@ -45,7 +46,7 @@ fi
 if [ "$VAR1" = "--help" ] || [ "$VAR1" = "-help" ] || [ "$VAR1" = "-h" ] || [ "$VAR1" = "-?" ]; then
 	echo "To upload files from your computer:"
 	echo
-	echo "	Format: '$0 [option] [directory/]filename.ext'."
+	echo "	Format: '$VAR0 [option] [directory/]filename.ext'."
 	echo
 	echo "	Option -d: default setting"
 	echo "	       -#: show progress-bar"
@@ -54,11 +55,11 @@ if [ "$VAR1" = "--help" ] || [ "$VAR1" = "-help" ] || [ "$VAR1" = "-h" ] || [ "$
 	echo
 	echo "To shorten long URL:s:"
 	echo
-	echo "	Format: '$0 -short https://example.com/directory'."
+	echo "	Format: '$VAR0 -short https://example.com/directory'."
 	echo
 	echo "To upload remote files:"
 	echo
-	echo "	Format: '$0 -remote https://example.com/directory/file.png'."
+	echo "	Format: '$VAR0 -remote https://example.com/directory/file.png'."
 	exit 1
 fi
 
@@ -74,7 +75,7 @@ if [ "$VAR1" = "-short" ]; then
 		echo "*** Sorry, but '$VAR2' is not a valid URL!"
 		if [ -z "$VAR2" ]; then
 			echo
-			echo "See '$0 --help' for more info."
+			echo "See '$VAR0 --help' for more info."
 		fi
 	fi
 	exit 1
@@ -92,7 +93,7 @@ if [ "$VAR1" = "-remote" ]; then
 		echo "*** Sorry, but I don't find any file at '$VAR2'!"
 		if [ -z "$VAR2" ]; then
 			echo
-			echo "See '$0 --help' for more info."
+			echo "See '$VAR0 --help' for more info."
 		fi
 	fi
 	exit 1
