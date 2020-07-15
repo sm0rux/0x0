@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION=1.0-4
+VERSION=1.0-5
 
 # Copyright (C) 2020 Pontus Falk
 
@@ -33,7 +33,7 @@ VAR0=$(basename "$0")
 VAR1=$1
 VAR2=$2
 
-echo "0x0 version "$VERSION". Copyright (C) 2020 by Pontus Falk"
+echo "$VAR0 version $VERSION. Copyright (C) 2020 by Pontus Falk"
 echo "License: MIT license"
 echo
 
