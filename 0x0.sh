@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION=1.0-5
+VERSION=1.0-6
 
 # Copyright (C) 2020 Pontus Falk
 
@@ -29,6 +29,7 @@ VERSION=1.0-5
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
+#[ $(($RANDOM%2)) -eq 0 ] && url1=https://0x0.st || url1=https://0x1.st
 VAR0=$(basename "$0")
 VAR1=$1
 VAR2=$2
