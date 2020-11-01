@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION=1.0-6
+VERSION=1.1-1
 
 # Copyright (C) 2020 Pontus Falk
 
@@ -152,3 +152,4 @@ esac
 echo -n "$URL" | xclip -i -sel clipboard
 echo
 echo "Tjoho, uploading of '$VAR2' is done! The URL is '$URL'!"
+notify-send "0x0" "Upload is done!"
