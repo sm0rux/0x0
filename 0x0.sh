@@ -2,7 +2,7 @@
 
 set -e
 
-VERSION=1.1-1
+VERSION=2.0-1
 
 # Copyright (C) 2020 Pontus Falk
 
@@ -29,7 +29,6 @@ VERSION=1.1-1
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 # SOFTWARE.
 
-#[ $(($RANDOM%2)) -eq 0 ] && url1=https://0x0.st || url1=https://0x1.st
 VAR0=$(basename "$0")
 VAR1=$1
 VAR2=$2
@@ -67,7 +66,7 @@ fi
 
 # URL shortener
 if [ "$VAR1" = "-short" ]; then
-	URL=$(curl -F shorten="$VAR2" -- https://0x0.st)
+	URL=$(curl --fail -F shorten="$VAR2" -- https://0x0.st) ; EXIT=$?
 	echo -n "$URL" | xclip -i -sel clipboard
 	if [ "$URL" != "Segmentation fault" ]; then
 		echo
@@ -85,7 +84,7 @@ fi
 
 # Upload remote file to 0x0.st
 if [ "$VAR1" = "-remote" ]; then
-	URL=$(curl -F url="$VAR2" -- https://0x0.st)
+	URL=$(curl --fail -F url="$VAR2" -- https://0x0.st) ; EXIT=$?
 	echo -n "$URL" | xclip -i -sel clipboard
 	if ! [ "${URL:0:1}" = "<" ] && ! [ "${URL:0:1}" = "4" ]; then
 		echo
@@ -131,25 +130,32 @@ fi
 # Time to set how to use curl
 case $VAR1 in
 	"-d")
-		URL=$(curl -F file=@"$VAR2" -- https://0x0.st)
+		URL=$(curl --fail -F file=@"$VAR2" -- https://0x0.st) ; EXIT=$?
 		;;
  	"-#")
-		URL=$(curl -# -F file=@"$VAR2" -- https://0x0.st)
+		URL=$(curl --fail -# -F file=@"$VAR2" -- https://0x0.st) ; EXIT=$?
 		;;
 	"-s")
-		URL=$(curl -s -F file=@"$VAR2" -- https://0x0.st)
+		URL=$(curl --fail -s -F file=@"$VAR2" -- https://0x0.st) ; EXIT=$?
 		;;
 	"-S")
-		URL=$(curl -s -S -F file=@"$VAR2" -- https://0x0.st)
+		URL=$(curl --fail -s -S -F file=@"$VAR2" -- https://0x0.st) ; EXIT=$?
 		;;
 	*)
 		echo "*** Unsupported option '$VAR1', continue with default setting!"
 		echo
-		URL=$(curl -F file=@"$VAR2" -- https://0x0.st)
+		URL=$(curl --fail -F file=@"$VAR2" -- https://0x0.st) ; EXIT=$?
 esac
 
 # Transfer file using curl and copy URL returned to clipboard
 echo -n "$URL" | xclip -i -sel clipboard
-echo
-echo "Tjoho, uploading of '$VAR2' is done! The URL is '$URL'!"
-notify-send "0x0" "Upload is done!"
+if [ $EXIT -eq 0 ]; then
+	echo
+	echo "Tjoho, uploading of '$VAR2' is done! The URL is '$URL'!"
+	notify-send "0x0" "Tjoho, uploading of '$VAR2' is done!\nThe URL is '$URL'!"
+else
+        echo
+        echo "*** Ooooups! Script ended with error code $EXIT!"
+	notify-send "0x0" "*** Ooooups! Script ended\nwith error code $EXIT!"
+
+fi
